@@ -76,29 +76,3 @@ pub type TrainingTensor<T> = Tensor<T, AutogradInfo<T>, NoExtraInfo>;
 
 // Tensor type used for Inference (without Autograd tracking)
 pub type InferenceTensor<T> = Tensor<T, NoExtraInfo, NoExtraInfo>;
-
-impl<T, G: AutoGrad, Q: Clone> Tensor<T, G, Q> {
-    // A method that utilizes the AutoGrad trait boundary
-    pub fn add(&self, other: &Self) -> Self
-    where
-        T: Clone, // Required if T is used in BaseTensor operations, or if BaseTensor has T fields.
-    {
-        // ... (performs element-wise addition)
-
-        // Autograd logic check
-        if G::REQUIRES_GRAD {
-            println!("INFO: Gradient tracking is active.");
-        } else {
-            println!("INFO: Gradient tracking is skipped.");
-        }
-
-        // Return new Tensor. We clone the necessary components.
-        Self {
-            base: self.base.clone(),
-            // Fixed the placeholder: clone the existing grad state (G implements Clone via AutoGrad)
-            grad: self.grad.clone(),
-            // Fixed the placeholder: clone the quant state (Q implements Clone)
-            quant: self.quant.clone(),
-        }
-    }
-}
