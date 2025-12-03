@@ -126,78 +126,82 @@ where
 #[cfg(test)]
 mod tests {
     use super::{Tensor, BaseTensor};
-    use std::rc::Rc;
-    use std::cell::RefCell;
 
-    #[test]
-    fn add() {
-        let left = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
-        let right = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
+    mod tensor {
+        use super::{Tensor, BaseTensor};
+        use std::rc::Rc;
+        use std::cell::RefCell;
 
-        let result = left + right;
+        #[test]
+        fn add() {
+            let left = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
+            let right = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
 
-        assert_eq!(*result.base.data.borrow(), vec![11, 22, 33, 44]);
-    }
+            let result = left + right;
 
-    #[test]
-    fn sub() {
-        let left = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
-        let right = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
+            assert_eq!(*result.base.data.borrow(), vec![11, 22, 33, 44]);
+        }
 
-        let result = left - right;
+        #[test]
+        fn sub() {
+            let left = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
+            let right = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
 
-        assert_eq!(*result.base.data.borrow(), vec![9, 18, 27, 36]);
-    }
+            let result = left - right;
 
-    #[test]
-    fn sub_with_minus_result() {
-        let left = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
-        let right = Tensor {
-            base: BaseTensor {
-                data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
-                shape: vec![2, 2],
-                strides: vec![2, 1],
-                offset: 0,
-            },
-        };
+            assert_eq!(*result.base.data.borrow(), vec![9, 18, 27, 36]);
+        }
 
-        let result = left - right;
+        #[test]
+        fn sub_with_minus_result() {
+            let left = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![1, 2, 3, 4])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
+            let right = Tensor {
+                base: BaseTensor {
+                    data: Rc::new(RefCell::new(vec![10, 20, 30, 40])),
+                    shape: vec![2, 2],
+                    strides: vec![2, 1],
+                    offset: 0,
+                },
+            };
 
-        assert_eq!(*result.base.data.borrow(), vec![-9, -18, -27, -36]);
+            let result = left - right;
+
+            assert_eq!(*result.base.data.borrow(), vec![-9, -18, -27, -36]);
+        }
     }
 }
