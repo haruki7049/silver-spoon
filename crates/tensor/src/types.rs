@@ -71,7 +71,6 @@ where
 #[cfg(test)]
 mod tests {
     use super::{Tensor, BaseTensor};
-    use std::ops::Add;
     use std::rc::Rc;
     use std::cell::RefCell;
 
@@ -96,6 +95,6 @@ mod tests {
 
         let result = left + right;
 
-        assert_eq!(result.base.data, vec![11, 22, 33, 44]);
+        assert_eq!(*result.base.data.borrow(), vec![11, 22, 33, 44]);
     }
 }
